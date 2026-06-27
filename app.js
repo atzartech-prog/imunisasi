@@ -226,6 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Print & PDF Elements
     const printPdfBtn = document.getElementById("print-pdf-btn");
+    const downloadHtmlBtn = document.getElementById("download-html-btn");
 
     // ==========================================
     // 6. LOGIN / AUTHENTICATION CONTROLLER
@@ -715,6 +716,246 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
+    // 12.5 DOWNLOAD HTML REPORT CONTROLLER
+    // ==========================================
+    function downloadHtmlReport() {
+        const profile = getProfile();
+        const records = getRecords();
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString("id-ID", {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+        const parentSignature = profile.mother || profile.father || "Orang Tua Wali";
+
+        let parentsText = "";
+        if (profile.mother && profile.father) parentsText = `Ibu: ${profile.mother} / Ayah: ${profile.father}`;
+        else if (profile.mother) parentsText = `Ibu: ${profile.mother}`;
+        else if (profile.father) parentsText = `Ayah: ${profile.father}`;
+        else parentsText = "-";
+
+        const sortedRecords = [...records].sort((a, b) => new Date(a.date) - new Date(b.date));
+        let tableRowsHtml = "";
+        sortedRecords.forEach((item, index) => {
+            const statusText = item.status === "Selesai" ? "Selesai" : "Jadwal / Belum";
+            const statusColor = item.status === "Selesai" ? "#047857" : "#b45309";
+            tableRowsHtml += `
+                <tr>
+                    <td class="text-center">${index + 1}</td>
+                    <td>${formatDisplayDate(item.date)}</td>
+                    <td><strong>${item.vaccine}</strong></td>
+                    <td>${item.notes || "-"}</td>
+                    <td class="text-center font-bold" style="color: ${statusColor};">${statusText}</td>
+                </tr>
+            `;
+        });
+
+        const htmlContent = `<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Imunisasi - ${profile.name}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #0f172a;
+            background-color: #ffffff;
+            line-height: 1.6;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .print-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px double #333333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .print-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .print-logo h2 {
+            font-size: 24px;
+            color: #4f46e5;
+            margin: 0;
+        }
+        .print-title {
+            text-align: right;
+        }
+        .print-title h1 {
+            font-size: 18px;
+            margin: 0 0 4px 0;
+        }
+        .print-title p {
+            font-size: 10px;
+            color: #555555;
+            margin: 0;
+        }
+        .print-section {
+            margin-bottom: 25px;
+        }
+        .print-section h3 {
+            font-size: 14px;
+            border-left: 4px solid #4f46e5;
+            padding-left: 10px;
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+        }
+        .print-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        .print-info-table td {
+            padding: 8px 10px;
+            border: 1px solid #dddddd;
+            font-size: 11px;
+        }
+        .font-bold {
+            font-weight: bold;
+        }
+        .w-30 {
+            width: 30%;
+        }
+        .w-70 {
+            width: 70%;
+        }
+        .print-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .print-table th, .print-table td {
+            border: 1px solid #dddddd;
+            padding: 8px 12px;
+            font-size: 10px;
+            text-align: left;
+        }
+        .print-table th {
+            background-color: #f8fafc;
+            font-weight: bold;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .print-footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .print-signature {
+            width: 250px;
+            text-align: center;
+            font-size: 11px;
+        }
+        .signature-line {
+            height: 60px;
+            border-bottom: 1px solid #000000;
+            margin-bottom: 8px;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media print {
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-header">
+        <div class="print-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            <h2>ImuniCare</h2>
+        </div>
+        <div class="print-title">
+            <h1>LAPORAN RIWAYAT IMUNISASI ANAK</h1>
+            <p>Diunduh pada tanggal: <span>${formattedDate}</span></p>
+        </div>
+    </div>
+
+    <div class="print-section">
+        <h3>PROFIL ANAK</h3>
+        <table class="print-info-table">
+            <tr>
+                <td class="w-30 font-bold">Nama Lengkap Anak:</td>
+                <td class="w-70">${profile.name}</td>
+            </tr>
+            <tr>
+                <td class="font-bold">Tanggal Lahir:</td>
+                <td>${formatDisplayDate(profile.dob)}</td>
+            </tr>
+            <tr>
+                <td class="font-bold">Jenis Kelamin:</td>
+                <td>${profile.gender}</td>
+            </tr>
+            <tr>
+                <td class="font-bold">Berat & Tinggi Lahir:</td>
+                <td>Berat Lahir: ${profile.weight} Kg | Tinggi Lahir: ${profile.height} Cm</td>
+            </tr>
+            <tr>
+                <td class="font-bold">Orang Tua (Ibu/Ayah):</td>
+                <td>${parentsText}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="print-section">
+        <h3>DAFTAR IMUNISASI</h3>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%;" class="text-center">No</th>
+                    <th style="width: 20%;">Tanggal</th>
+                    <th style="width: 25%;">Nama Vaksin</th>
+                    <th style="width: 35%;">Catatan</th>
+                    <th style="width: 15%;" class="text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${tableRowsHtml}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="print-footer">
+        <div class="print-signature">
+            <p>Orang Tua/Wali Anak,</p>
+            <div class="signature-line"></div>
+            <p>${parentSignature}</p>
+        </div>
+        <div class="print-signature">
+            <p>Tenaga Medis / Bidan,</p>
+            <div class="signature-line"></div>
+            <p>(_________________________)</p>
+        </div>
+    </div>
+</body>
+</html>`;
+
+        const blob = new Blob([htmlContent], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+        
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const dd = String(today.getDate()).padStart(2, "0");
+        const cleanName = profile.name.toLowerCase().replace(/[^a-z0-9]/g, "_");
+
+        const tempLink = document.createElement("a");
+        tempLink.href = url;
+        tempLink.download = `laporan_imunisasi_${cleanName}_${yyyy}${mm}${dd}.html`;
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+        URL.revokeObjectURL(url);
+    }
+
+    // ==========================================
     // 13. INTERFACE EVENT BINDING
     // ==========================================
     // Login Submit
@@ -757,6 +998,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Print PDF triggers
     printPdfBtn.addEventListener("click", prepareAndPrintPdf);
+    downloadHtmlBtn.addEventListener("click", downloadHtmlReport);
 
     // ==========================================
     // 14. APPLICATION INITIALIZATION WAKEUP

@@ -435,6 +435,12 @@ input:focus, select:focus, textarea:focus {
     color: var(--text-muted);
 }
 
+.header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
 /* Tab Pane Toggle */
 .tab-pane {
     display: none;
@@ -910,6 +916,9 @@ input:focus, select:focus, textarea:focus {
     
     .header-actions {
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
     
     .header-actions button {
