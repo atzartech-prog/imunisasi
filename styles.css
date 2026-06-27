@@ -934,9 +934,11 @@ input:focus, select:focus, textarea:focus {
    PRINT LAYOUT MEDIA RULE
    ========================================================================== */
 @media print {
-    /* Hide everything on screen except print view */
-    body * {
-        visibility: hidden;
+    /* Hide screen elements */
+    #login-container,
+    #app-container,
+    .blob-bg {
+        display: none !important;
     }
     
     body {
@@ -945,15 +947,8 @@ input:focus, select:focus, textarea:focus {
         color: #000000;
     }
     
-    .print-only, .print-only * {
-        visibility: visible;
-    }
-    
     .print-only {
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
+        display: block !important;
         width: 100%;
         padding: 20px;
     }
