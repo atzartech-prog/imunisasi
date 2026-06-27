@@ -9,10 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // Pre-computed SHA-256 Hashes:
     // admin     -> 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
-    // bismillah -> 3be8a5626a575a74e5033735760ee515e06497ecb0a1d41870efc33e8b030588
+    // bismillah -> a1dd395c19f3a1f7ff0e6bfe3ee6028e4373b41085a6da776ab02a8baf129abb
     const AUTH_CONFIG = {
         userHash: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-        passHash: "3be8a5626a575a74e5033735760ee515e06497ecb0a1d41870efc33e8b030588"
+        passHash: "a1dd395c19f3a1f7ff0e6bfe3ee6028e4373b41085a6da776ab02a8baf129abb"
     };
 
     // Initial 20 Immunization Records (Requested by user)
