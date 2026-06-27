@@ -8,7 +8,6 @@
 
 1. **Autentikasi Pengguna yang Aman**:
    - Dilengkapi sistem login keamanan tinggi.
-   - Kredensial masuk: **Username: `admin`** dan **Password: `bismillah`**.
    - **Kredensial di-hash menggunakan algoritme SHA-256** (Web Crypto API) di sisi klien. Tidak ada teks sandi mentah (*plaintext*) yang tertulis atau terlihat langsung di dalam kode program JavaScript untuk melindungi privasi.
 2. **Dasbor Profil & Kemajuan Interaktif**:
    - Menampilkan ringkasan data diri bayi beserta umur bayi yang dihitung secara dinamis dalam format tahun, bulan, dan hari berdasarkan tanggal lahir.
@@ -40,16 +39,6 @@ dataimunisasi/
 ```
 
 ---
-
-## 🔑 Informasi Akun Akses Masuk
-
-Untuk keamanan sistem, kredensial login disimpan dalam bentuk hash SHA-256 (Web Crypto API):
-
-*   **Username**: `admin` *(Hashed: `8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918`)*
-*   **Password**: `bismillah` *(Hashed: `3be8a5626a575a74e5033735760ee515e06497ecb0a1d41870efc33e8b030588`)*
-
-*Keterangan teks sandi mentah di atas sama sekali tidak dicantumkan di dalam kode sumber program.*
-
 ---
 
 ## 🚀 Cara Menjalankan Aplikasi di Termux (Android)
@@ -82,36 +71,7 @@ Setelah server web aktif, buka browser favorit Anda (Chrome, Firefox, dll.) di H
 http://localhost:8080
 ```
 
-Masukkan nama pengguna `admin` dan kata sandi `bismillah` untuk masuk ke dasbor utama.
-
----
-
-## 💉 Daftar 20 Data Imunisasi Bawaan (Awal)
-
-Secara default, saat pertama kali dibuka, aplikasi akan langsung memuat 20 riwayat imunisasi awal berikut ke dalam LocalStorage Anda:
-
-| No | Tanggal Imunisasi | Nama Vaksin | Kegunaan & Catatan | Status |
-|---|---|---|---|---|
-| 1 | 31-05-2024 | POLIO | Polio 1 / Tetes oral pertama | Selesai |
-| 2 | 15-06-2024 | IMUNISASI BCG | Mencegah penyakit Tuberkulosis (TBC) | Selesai |
-| 3 | 22-06-2024 | HEXAXIM | Dosis 1 (DPT, Hep B, Hib, Polio IPV) | Selesai |
-| 4 | 05-07-2024 | PREVENAR (IPD) | PCV 1 - Pencegah Radang Paru & Selaput Otak | Selesai |
-| 5 | 20-07-2024 | ROTARIX | Rotavirus 1 - Pencegah Diare Berat | Selesai |
-| 6 | 03-08-2024 | HEXAXIM | Dosis 2 (DPT, Hep B, Hib, Polio IPV) | Selesai |
-| 7 | 16-08-2024 | PREVENAR (IPD) | PCV 2 - Pencegah Radang Paru & Selaput Otak | Selesai |
-| 8 | 31-08-2024 | ROTARIX | Rotavirus 2 - Pencegah Diare Berat | Selesai |
-| 9 | 14-09-2024 | HEXAXIM | Dosis 3 (DPT, Hep B, Hib, Polio IPV) | Selesai |
-| 10 | 05-10-2024 | PREVENAR (IPD) | PCV 3 - Booster Dosis Lengkap | Selesai |
-| 11 | 12-11-2024 | VAXIGRIP TETRA | Influenza Dosis 1 | Selesai |
-| 12 | 30-11-2024 | INLIVE | Enterovirus EV71 Dosis 1 - Mencegah HFMD | Selesai |
-| 13 | 11-12-2024 | VAXIGRIP TETRA | Influenza Dosis 2 | Selesai |
-| 14 | 28-12-2024 | INLIVE | Enterovirus EV71 Dosis 2 | Selesai |
-| 15 | 15-02-2025 | CAMPAK - M | MR Dosis 1 - Pencegah Campak & Rubella | Selesai |
-| 16 | 19-04-2025 | Imojev JE | Japanese Encephalitis Dosis 1 - Radang Otak | Selesai |
-| 17 | 19-07-2025 | VARICELA | Varisela Dosis 1 - Pencegah Cacar Air | Selesai |
-| 18 | 02-08-2025 | HEPATITIS A | Hepatitis A Dosis 1 | Selesai |
-| 19 | 01-11-2025 | VARICELA | Varisela Dosis 2 | Selesai |
-| 20 | 29-11-2025 | HEXAXIM | Booster Lanjutan DPT-HB-Hib usia 18 bulan | Selesai |
+Masukkan nama pengguna dan kata sandi Anda untuk masuk ke dasbor utama.
 
 ---
 
